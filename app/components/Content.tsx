@@ -23,10 +23,10 @@ async function getMovieData() {
 const content = async () => {
 
   const data = await getMovieData();
-  // console.log(data)
+  console.log(data)
   return (
     <main>
-        <div className="grid gap-12 grid-cols-fluid">
+        <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {data.results.map((movie: PostProps) => (
             <Movie
               key={movie.id}
