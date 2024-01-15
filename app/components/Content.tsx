@@ -14,16 +14,25 @@ type PostProps = {
 }
 
 async function getMovieData() {
-  const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${process.env.TMDB_API_KEY}`);
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN_AUTH}`
+    }
+  };
+
+  const res = await fetch(`https://api.themoviedb.org/3/movie/popular?language=en-US&page=1`, options);
   if (!res.ok) {
     throw new Error('Faild to Fetch data');
   }
+
+  // console.log(res.json)
   return res.json()
 }
-const content = async () => {
+const Content = async () => {
 
   const data = await getMovieData();
-  console.log(data)
   return (
     <main>
         <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
@@ -41,4 +50,4 @@ const content = async () => {
   )
 }
 
-export default content
+export default Content
