@@ -1,3 +1,4 @@
+
 import { MovieAllDetails } from "../lib/movieTypes";
 
 export async function getSingleMoviedata (movieId: string): Promise<MovieAllDetails> {
@@ -5,7 +6,7 @@ export async function getSingleMoviedata (movieId: string): Promise<MovieAllDeta
         method: 'GET',
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NmQ3ZGYzNzU0MDk2MWFjNzFjNmY0MzFhYTRmYmU4NiIsInN1YiI6IjY0OTMwMjJjYzI4MjNhMDBlMmU5NzQ2ZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.n19VgdtxNG9df6JgSidMGjYkaG6SMtwNk-z_xzw8hLU'
+            Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN_AUTH}`
         }
     };
 
@@ -15,10 +16,14 @@ export async function getSingleMoviedata (movieId: string): Promise<MovieAllDeta
         throw new Error('Not able to fetch movie details')
     }
 
-    return res.json();
+    const data = await res.json();
+
+    return data;
 }
 
 export async function getAllPopularMovies() {
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
     const options = {
         method: 'GET',
         headers: {
@@ -32,5 +37,7 @@ export async function getAllPopularMovies() {
         throw new Error('Faild to Fetch data');
     }
 
-    return res.json()
+    const data = await res.json();
+
+    return data;
 }
