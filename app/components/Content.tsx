@@ -1,16 +1,19 @@
-import Movie from "@/app/components/Movie";
+import Link from "next/link";
+import Image from "next/image";
+import { SingleMovieCard, MovieAllDetails } from "../lib/movieTypes";
+import { getAllPopularMovies } from "../utils/getMovieDetails";
 
-type PostProps = {
-  title: string;
-  overview?: string | null;
-  id: string;
-  poster_path: string;
-  release_date: Date;
-  vote_average: number;
-  vote_count: number;
-  backdrop_path: string;
-  original_language: string;
-  popularity: number;
+
+const Movie = (movies: SingleMovieCard) => {
+return (
+  <div className="flex flex-col items-center justify-center gap-2 p-6">
+      <h1>{movies.title}</h1>
+      <h2>{movies.release_date}</h2>
+      <Link href={`/${movies.id}`}>
+          <Image src = {`${process.env.IMAGE_PATH}${movies.poster_path}`} alt="MoviePoster" width={300} height={300} />
+      </Link>
+  </div>
+)
 }
 
 async function getMovieData() {
@@ -32,11 +35,13 @@ async function getMovieData() {
 }
 const Content = async () => {
 
-  const data = await getMovieData();
+  const data = await getAllPopularMovies();
+  // console.log(typeof(data))
+  
   return (
     <main>
         <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {data.results.map((movie: PostProps) => (
+          {data.results.map((movie: MovieAllDetails) => (
             <Movie
               key={movie.id}
               id={movie.id}
@@ -45,6 +50,7 @@ const Content = async () => {
               release_date={movie.release_date.toString()}
             />
           ))}
+          
         </div>
     </main>
   )
